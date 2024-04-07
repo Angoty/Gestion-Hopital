@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = ViewBag.Layout ?? "_Layout"; // Utilisez le layout par défaut sauf si ViewBag.Layout est défini
+
 }
 
 <div class="text-center">
