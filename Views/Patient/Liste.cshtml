@@ -1,0 +1,86 @@
+@model hopital.Models.PaginatedListViewModel<hopital.Models.Personne>
+
+    @{
+        Layout = ViewBag.Layout ?? "_Layout";
+        ViewData["Title"] = "Liste des Patients";
+    }
+    
+    <div class="body-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 d-flex align-items-stretch">
+                    <div class="card w-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-semibold mb-4">Liste des patients</h5>
+                            <div class="table-responsive">
+                                <table class="table text-nowrap mb-0 align-middle">
+                                    <thead class="text-dark fs-4">
+                                        <tr>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Nom</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Prénoms</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Adresse</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Contact</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Total Facture</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Actions</h6>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach(var personne in @Model.Items)
+                                        {
+                                            <tr>
+                                                <td class="border-bottom-0">
+                                                    <span class="fw-normal">@personne.nom</span>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <span class="fw-normal">@personne.prenom</span>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <span class="fw-normal">@personne.adresse.intitule</span>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <h6 class="fw-semibold mb-1">@personne.contact.numero</h6>
+                                                    <span class="fw-normal">@personne.contact.email</span>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    0
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <span>
+                                                        <a href="@Url.Action("Liste", "Patient")"><button type="button" class="btn btn-outline-warning m-1">Edit</button></a>
+                                                    </span>
+                                                    <span>
+                                                        <a href="@Url.Action("Liste", "Patient")"><button type="button" class="btn btn-outline-danger m-1">Delete</button></a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (Model.HasPreviousPage)
+            {
+                <a href="/Patient/Liste?page=@(Model.PageIndex - 1)" class="btn btn-primary">Précédent</a>
+            }
+            @if (Model.HasNextPage)
+            {
+              <a href="/Patient/Liste?page=@(Model.PageIndex + 1)" class="btn btn-primary">Suivant</a>
+            }
+        </div>
+         <a href="@Url.Action("Pdf", "Patient", new { page = Model.PageIndex, pageSize = 5 })" class="btn btn-primary">Exporter en PDF</a>
+    </div>
